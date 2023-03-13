@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTypeCategoriesTable extends Migration
+class CreateCustomerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,11 @@ class CreateTypeCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('type_categories', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->date('birthdate');
+            $table->string('email');
             $table->integer('user_id', false, true);
             $table->foreign('user_id')->references('id')->on('users')
             ->onUpdate('cascade')
@@ -32,6 +34,6 @@ class CreateTypeCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_categories');
+        Schema::dropIfExists('customer');
     }
 }
