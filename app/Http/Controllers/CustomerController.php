@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\CustomerService;
+use Exception;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -16,6 +17,10 @@ class CustomerController extends Controller
 
     public function store(Request $request)
     {
-        return $this->service->store($request->all());
+        try {
+            responseHTTP(201, 'success', $this->service->store($request->all()));
+        } catch (Exception $th) {
+            responseHTTP(500, $th->getMessage());
+        }
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Customer;
+use Exception;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
 class CustomerService extends ServiceBase
@@ -15,8 +17,8 @@ class CustomerService extends ServiceBase
         $this->userService = $userService;
     }
 
-    public function store(array $dados)
-    {        
+    public function store(array $dados): Model
+    {
         DB::beginTransaction();
         try {
             $userId = $this->userService->store($dados);
@@ -24,14 +26,14 @@ class CustomerService extends ServiceBase
                 "name" => $dados['name'],
                 "birthdate" => $dados['birthdate'],
                 "email" => $dados['email'],
-                "user_id" => $userId,
+                "user_id" => $userId->id,
             ]);
             DB::commit();
             return $customer;
-        } catch (\Throwable $th) {
+        } catch (Exception $th) {
             DB::rollBack();
-            return $th->getMessage();
+            throw new Exception($th->getMessage(), 400);
         }
-        
+
     }
 }

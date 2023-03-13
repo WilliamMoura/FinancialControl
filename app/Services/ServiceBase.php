@@ -24,7 +24,7 @@ abstract class ServiceBase
         return $this->model->findOrFail($id);
     }
 
-    public function store(array $dados): array
+    public function store(array $dados): Model
     {
         DB::beginTransaction();
         try {
