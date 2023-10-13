@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\FinancialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,3 +26,4 @@ Route::get('teste', function () {
 
 Route::resource('category', CategoryController::class);
 Route::resource('customer', CustomerController::class);
+Route::resource('financial', FinancialController::class);
