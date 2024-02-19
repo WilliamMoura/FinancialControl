@@ -12,6 +12,8 @@ services:
             - ./:/var/www
         networks:
             - laravel
+        ports:
+            - "9000:9000"
 
     # nginx
     nginx:
@@ -21,12 +23,24 @@ services:
             - "8989:80"
         volumes:
             - ./:/var/www
-            - ./nginx/:/etc/nginx/conf.d/
+            - ./site.conf:/etc/nginx/conf.d/site.conf
         networks:
             - laravel
 
     # db mysql
-    
+    db:
+        image: mysql:latest
+        container_name: mysql-control
+        ports:
+        - 3309:3306
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: cosmos
+            MYSQL_USER: william
+            MYSQL_PASSWORD: william
+        networks:
+            - laravel
 
 networks:
     laravel:
