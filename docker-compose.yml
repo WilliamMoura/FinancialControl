@@ -1,39 +1,45 @@
-version: "3.7"
+version: "3"
 
 services:
+    # nginx
+    nginx:
+        image: nginx:latest
+        restart: always
+        ports:
+            - "80:80"
+        volumes:
+            - ./:/www
+            # - ./sites.conf:/etc/nginx/conf.d/site.conf
+            - ./sites.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            - laravel
+        links:
+            - app
+        depends_on:
+            - app
+
     # image project
     app:
         build:
             context: .
             dockerfile: Dockerfile
         restart: unless-stopped
-        working_dir: /var/www/
+        container_name: app
         volumes:
-            - ./:/var/www
+            - ./:/www
         networks:
             - laravel
         ports:
             - "9000:9000"
-
-    # nginx
-    nginx:
-        image: nginx:alpine
-        restart: unless-stopped
-        ports:
-            - "8989:80"
-        volumes:
-            - ./:/var/www
-            - ./site.conf:/etc/nginx/conf.d/site.conf
-        networks:
-            - laravel
-
     # db mysql
     db:
         image: mysql:latest
         container_name: mysql-control
         ports:
-        - 3309:3306
+        - 3308:3306
         restart: unless-stopped
+        volumes:
+          - ./storage/db:/var/lib/mysql
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: cosmos

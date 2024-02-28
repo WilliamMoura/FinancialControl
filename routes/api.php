@@ -20,10 +20,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('teste', function () {
-    return 'teste 1';
+Route::get('teste', function (Request $request) {
+    return response('sucesso2');
 });
 
-Route::resource('category', CategoryController::class);
 Route::resource('customer', CustomerController::class);
 Route::resource('financial', FinancialController::class);
+Route::apiResource('category', CategoryController::class);

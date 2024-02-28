@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Http\Requests\CustonRequest;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class CategoryController extends Controller
         return $this->service->get($id);
     }
 
-    public function store(CustonRequest $request)
+    public function store(CategoryRequest $request)
     {
         $userId = $request->header('user_id');
         try {
@@ -26,5 +27,10 @@ class CategoryController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['message' => $th->getMessage()], 500);
         }
+    }
+
+    public function index(Request $request)
+    {
+        return $this->service->all();
     }
 }

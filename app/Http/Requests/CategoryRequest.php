@@ -3,8 +3,10 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
-class CustonRequest extends FormRequest
+class CategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,16 +26,16 @@ class CustonRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|string|max:255",
+            "name" => "required|string",
             "type_id" => "required|int"
         ];
     }
 
-    public function messages()
+    public function failedValidation(Validator $validator)
     {
-        return [
-            "name.required" => "O nome é obrigatorio",
-            "type_id.required" => "O tipo da categoria é obrigatorio",
-        ];
+        throw new HttpResponseException(response()->json([
+            'message'   => 'Validation errors',
+            'data'      => $validator->errors()
+        ], 403));
     }
 }
