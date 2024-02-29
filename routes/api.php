@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FinancialController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,8 @@ Route::get('teste', function (Request $request) {
 Route::resource('customer', CustomerController::class);
 Route::resource('financial', FinancialController::class);
 Route::apiResource('category', CategoryController::class);
+Route::post('user', function(Request $request) {
+    $request->merge(['password' => Hash::make($request->password)]);
+
+    return User::create($request->all());
+});

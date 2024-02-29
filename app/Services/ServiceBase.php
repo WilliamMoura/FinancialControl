@@ -16,7 +16,7 @@ abstract class ServiceBase
 
     public function all()
     {
-
+        return $this->model->all();
     }
 
     public function get(int $id): array
@@ -29,9 +29,11 @@ abstract class ServiceBase
         DB::beginTransaction();
         try {
             $created = $this->model->create($dados);
+            dd($created);
             DB::commit();
             return $created;
         } catch (Exception $th) {
+            dd($th->getMessage());
             DB::rollBack();
             throw new Exception($th->getMessage(), 500);
         }

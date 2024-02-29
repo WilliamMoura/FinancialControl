@@ -1,5 +1,12 @@
-FROM php:8.1-fpm
+FROM php:8.2-fpm
+RUN apt-get update && apt-get install -y \
+		libfreetype-dev \
+		libjpeg62-turbo-dev \
+		libpng-dev \
+	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
+	&& docker-php-ext-install pdo_mysql -j$(nproc) gd
 
+WORKDIR /var/www
 # set your user name, ex: user=bernardo
 # ARG user=william
 # ARG uid=1000
@@ -42,7 +49,11 @@ FROM php:8.1-fpm
 COPY . /var/www
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+RUN composer install
+
+# RUN php artisan migrate
 # Copy custom configurations PHP
 
 # USER $user

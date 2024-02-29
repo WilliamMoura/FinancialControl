@@ -10,8 +10,6 @@ class CategoryObserver
 {
     public function creating(Category $category)
     {
-        $request = new HttpRequest();
-        dd($request->all());
-        exit;
+
     }
 }
