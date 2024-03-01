@@ -3,23 +3,25 @@
 namespace App\Services;
 
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 abstract class ServiceBase
 {
-    private $model;
+    protected $model;
     public function __construct(Model $model)
     {
         $this->model = $model;
     }
 
-    public function all()
+    public function all(Request $request)
     {
-        return $this->model->all();
+        return $this->model->get();
     }
 
-    public function get(int $id): array
+    public function get(int $id): Model
     {
         return $this->model->findOrFail($id);
     }
@@ -29,11 +31,9 @@ abstract class ServiceBase
         DB::beginTransaction();
         try {
             $created = $this->model->create($dados);
-            dd($created);
             DB::commit();
             return $created;
         } catch (Exception $th) {
-            dd($th->getMessage());
             DB::rollBack();
             throw new Exception($th->getMessage(), 500);
         }
@@ -47,5 +47,11 @@ abstract class ServiceBase
     public function delete(int $id)
     {
 
+    }
+
+    public function index(): Collection
+    {
+        $list = $this->model->all();
+        return $list;
     }
 }

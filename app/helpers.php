@@ -11,9 +11,9 @@ if (! function_exists('responseHTTP')) {
     }
 }
 
-// if (! function_exists('currentUser')) {
-//     function currentUser()
-//     {
-//         return (new GetCredentialsHeader(request()))->credentialUser();
-//     }
-// }
+if (! function_exists('currentUser')) {
+    function currentUser()
+    {
+        // return (new GetCredentialsHeader (request()))->credentialUser();
+    }
+}

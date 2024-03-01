@@ -25,7 +25,7 @@ Route::get('teste', function (Request $request) {
     return response('sucesso2');
 });
 
-Route::resource('customer', CustomerController::class);
+Route::apiResource('customer', CustomerController::class);
 Route::resource('financial', FinancialController::class);
 Route::apiResource('category', CategoryController::class);
 Route::post('user', function(Request $request) {

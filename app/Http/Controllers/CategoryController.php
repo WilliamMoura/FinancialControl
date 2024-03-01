@@ -21,7 +21,6 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-        $userId = $request->header('user_id');
         try {
             return response()->json($this->service->store($request->all()), 201);
         } catch (\Throwable $th) {
@@ -31,6 +30,6 @@ class CategoryController extends Controller
 
     public function index(Request $request)
     {
-        return $this->service->all();
+        return responseHTTP(200, 'success',$this->service->all($request));
     }
 }

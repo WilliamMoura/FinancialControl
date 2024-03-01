@@ -18,9 +18,19 @@ class CustomerController extends Controller
     public function store(Request $request)
     {
         try {
-            responseHTTP(201, 'success', $this->service->store($request->all()));
+            return responseHTTP(201, 'success', $this->service->store($request->all()));
         } catch (Exception $th) {
-            responseHTTP(500, $th->getMessage());
+            return responseHTTP(500, $th->getMessage());
         }
+    }
+
+    public function index(Request $request)
+    {
+        return responseHTTP(200, 'success', $this->service->index());
+    }
+
+    public function show(Request $request, int $id)
+    {
+        return responseHTTP(200, 'success', $this->service->get($id));
     }
 }

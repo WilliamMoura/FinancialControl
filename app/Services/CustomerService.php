@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\DB;
 class CustomerService extends ServiceBase
 {
     private $userService;
-    public function __construct(Customer $customer, UserService $userService)
+    public function __construct(Customer $model, UserService $userService)
     {
-        parent::__construct($customer);
+        parent::__construct($model);
         $this->userService = $userService;
     }
 
@@ -21,15 +21,9 @@ class CustomerService extends ServiceBase
     {
         DB::beginTransaction();
         try {
-            $userId = $this->userService->store($dados);
-            $customer =  Customer::create([
-                "name" => $dados['name'],
-                "birthdate" => $dados['birthdate'],
-                "email" => $dados['email'],
-                "user_id" => $userId->id,
-            ]);
+            $created = $this->model->create($dados);
             DB::commit();
-            return $customer;
+            return $created;
         } catch (Exception $th) {
             DB::rollBack();
             throw new Exception($th->getMessage(), 400);
