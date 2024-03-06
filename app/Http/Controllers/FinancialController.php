@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FinancialRequest;
+use App\Services\FinancialService;
+use App\Services\ServiceBase;
 use Illuminate\Http\Request;
 
 class FinancialController extends Controller
 {
-    public function __construct(){}
+    public function __construct(private FinancialService $service ){}
 
-    public function store(Request $request)
+    public function store(FinancialRequest $request)
     {
-        // dd($request->all());
+        return responseHTTP(200, 'success', $this->service->store($request->all()));
     }
 }

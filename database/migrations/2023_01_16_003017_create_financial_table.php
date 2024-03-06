@@ -13,7 +13,7 @@ class CreateFinancialTable extends Migration
      */
     public function up()
     {
-        Schema::create('financial', function (Blueprint $table) {
+        Schema::create('financials', function (Blueprint $table) {
             $table->increments('id');
             $table->string('description');
             $table->decimal('liquid_value');
